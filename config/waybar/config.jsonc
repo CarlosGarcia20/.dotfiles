@@ -1,0 +1,249 @@
+{
+    "position": "top",
+    "exlusive": "true",
+    "passthrough": "true",
+    "gtk-layer-shell": "true",
+    "margin-top": 5,
+    "margin-left": 10,
+    "margin-right": 10,
+    "height": 41,
+    "modules-left": [
+        "custom/media",
+        "cpu",
+        "memory",
+        "hyprland/language",
+        "keyboard-state"
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        "backlight",
+        "battery",
+        "clock",
+        "tray",
+        "bluetooth",
+        "custom/wlogout",
+        "custom/notification"
+    ],
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "6": "",
+            "7": "",
+            "8": "",
+            "9": "",
+            "active": "",
+            "urgent": "",
+            "persistent": "",
+            "focused": "",
+            "default": ""
+        },
+        "sort-by-number": true,
+        "persistent-workspaces": {
+            "*": 9,
+            "DP-1": 9
+        },
+        "on-scroll-up": "hyprctl dispatch workspace e-1",
+        "on-scroll-down": "hyprctl dispatch workspace e+1"
+    },
+    "clock": {
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "<big>{:%H:%M}</big>",
+        "format-alt": "<span color='#cdd6f4'>{:%H:%M | %a %d %b}</span>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3
+        }
+    },
+    "cpu": {
+        "format": "<span color='#89b4fa'>󰍛</span> <span color='#cdd6f4'>{usage}%</span>",
+        "interval": 1,
+        "format-alt-click": "click",
+        "format-alt": "<span color='#00FF00'>{icon0}{icon1}{icon2}{icon3}</span> <span color='#FFFFFF'>{usage:>2}%</span> <span color='#00FF00'>󰍛</span>",
+        "format-icons": [
+            "▁",
+            "▂",
+            "▃",
+            "▄",
+            "▅",
+            "▆",
+            "▇",
+            "█"
+        ],
+        "on-click": "gnome-system-monitor"
+    },
+    "memory": {
+        "interval": 3,
+        "format": "<span color='#f38ba8'> </span> <span color='#cdd6f4'>{used:0.1f}G</span>"
+    },
+     "disk": {
+        "interval": 3,
+        "path": "/home",
+        "format": "<span color='#a6e3a1'> </span><span color='#cdd6f4'>{free}</span>",
+        "unit": "GB"
+    },
+    "separator": {
+        "format": " | "
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 15
+    },
+    "battery": {
+        "interval": 5,
+        "states": {
+            "good": 90,
+            "warning": 20,
+            "critical": 10
+        },
+        "format": "{capacity}% {icon}",
+        "format-full": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            "", "", "", "", ""
+        ]
+    },
+    "network": {
+        "interval": 1,
+        "format-wifi": "{icon}", // Solo el ícono
+        "format-ethernet": "󰈀", // Ícono de red cableada
+        "format-disconnected": "󰖪", // Ícono de desconectado,
+        "tooltip-format": "Connected to {essid}",
+        "tooltip-format-ethernet": "{ifname} ",
+        "format-icons": {
+            "wifi": [
+                "󰤯", // señal muy baja (1–19%)
+                "󰤟", // baja (20–39%)
+                "󰤢", // media (40–59%)
+                "󰤥", // buena (60–79%)
+                "󰤨" // excelente (80–100%)
+            ]
+        }
+    },
+    "pulseaudio": {
+        "format": "<span color='#a6e3a1'>{icon} </span><span color='#cdd6f4'>{volume}%</span>",
+        "format-bluetooth": "<span color='#a6e3a1'>{icon}</span>  <span color='#cdd6f4'>{volume}%</span>",
+        "tooltip": true,
+        "format-muted": "<span color='#f38ba8'>󰝟</span>",
+        "on-click": "pavucontrol",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_SINK@ 10%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_SINK@ 10%-",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        }
+    },
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": "<span color='#f38ba8'> </span><span color='#cdd6f4'>{volume}%</span>",
+        "format-source-muted": "",
+        "on-click": "wpctl set-mute @DEFAULT_SOURCE@ toggle",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_SOURCE@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_SOURCE@ 5%-"
+    },
+    "hyprland/language": {
+        "format": "<span color='#f9e2af'>󰌌</span> <span color='#cdd6f4'>{}</span> |",
+        "format-ar": "ara",
+        "format-en": "eng",
+        "format-es": "esp",
+        "format-la": "esp"
+    },
+    "backlight": {
+        "device": "amdgpu_bl1",
+        "format": "{icon} {percent}%",
+        "format-icons": [ "󰃝", "󰃞", "󰃟", "󰃠" ],
+        "on-scroll-up": "brightnessctl set 5%+",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+    "bluetooth": {
+    "format": "{icon} {status}",
+    "format-icons": {
+        "enabled": "",
+        "disabled": "󰂲"
+    },
+    "on-click": "blueman-manager",
+    "on-click-right": "bluetoothctl power toggle",
+    "tooltip": true,
+        "tooltip-format": "{status} {device_alias}"
+    },
+    "keyboard-state": {
+        "numlock": true,
+        "scrolllock": false,
+        "format": {
+            "numlock": "{name} {icon}"
+        },
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "custom/wlogout": {
+        "format": "⏻",
+        "on-click": "wlogout",
+        "tooltip": false,
+        "on-click-right": "hyprctl dispatch exit"
+    },
+    "custom/media": {
+        "format": "{icon} {text}",
+        "return-type": "json",
+        "max-length": 25,
+        "format-icons": {
+            "spotify": "",
+            "default": ""
+        },
+        "escape": true,
+        "exec": "~/.config/waybar/scripts/mediaplayer.sh",
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl stop",
+        "interval": 1,
+        "tooltip": true,
+        "tooltip-format": "{text}"
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}  {profile}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "<span foreground='red'><sup></sup></span>",
+            "none": "",
+            "dnd-notification": " ",
+            "dnd-none": "󰂛"
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "sleep 0.1 && swaync-client -t -sw",
+        "on-click-right": "sleep 0.1 && swaync-client -d -sw",
+        "escape": true
+    }
+}

@@ -1,64 +1,103 @@
+#!/bin/bash
 set -euo pipefail
 
-# Instalar programas necesarios
-sudo pacman -S --needed --noconfirm cava
-sudo pacman -S --needed --noconfirm dunst
-sudo pacman -S --needed --noconfirm kitty
-sudo pacman -S --needed --noconfirm rofi-wayland
-sudo pacman -S --needed --noconfirm hyprpicker
-sudo pacman -S --needed --noconfirm blueman
-sudo pacman -S --needed --noconfirm pavucontrol
-sudo pacman -S swaync
-yay -S --noconfirm waypaper
-yay -S --noconfirm hyprlock-git
-yay -S --noconfirm wlogout
-yay -S --noconfirm hyprshot
+# Determinar directorio del script
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+echo "Script de instalación del entorno de escritorio Hyprland"
+echo "Instalando fuentes..."
 
-# Hyprland
-echo "Aplicando configuraciones de Hypr..."
-rm -rf "$HOME/.config/hypr"
-ln -srv "./configs/hypr" "$HOME/.config/hypr"
-hyprctl reload
-echo "Listo"
+sudo pacman -S --needed --noconfirm \
+  ttf-dejavu ttf-liberation ttf-font-awesome ttf-nerd-fonts-symbols \
+  noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-fira-code
 
-# Waypaper
-echo "Aplicando configuraciones de Waypaper..."
-rm -rf "$HOME/.config/waypaper"
-ln -srv "./configs/waypaper" "$HOME/.config/waypaper"
-echo "Listo"
+sudo fc-cache -fv
+echo "Fuentes instaladas."
 
-#Waybar
-echo "Aplicando configuraciones de Waybar..."
-rm -rf "$HOME/.config/waybar"
-ln -srv "./configs/waybar" "$HOME/.config/waybar"
-echo "Listo"
+# Instalar yay si no existe
+if ! command -v yay &>/dev/null; then
+  echo "Instalando yay..."
+  sudo pacman -S --needed --noconfirm git base-devel
+  git clone https://aur.archlinux.org/yay.git
+  cd yay
+  makepkg -si --noconfirm
+  cd ..
+  rm -rf yay
+else
+  echo "yay ya está instalado."
+fi
 
-# Kitty
-echo "Aplicando configuraciones de Kitty..."
-rm -rf "$HOME/.config/kitty"
-ln -srv "./configs/kitty" "$HOME/.config/kitty"
-echo "Listo"
+# Función para entorno de escritorio
+desktop_configuration() {
+  echo "Iniciando instalación para Desktop Hyprland..."
 
-# Cava 
-echo "Aplicando configuraciones de Cava..."
-rm -rf "$HOME/.config/cava"
-ln -srv "./configs/cava" "$HOME/.config/cava"
-echo "Listo"
+  echo "Instalando temas y cursores..."
+  yay -S --noconfirm rose-pine-hyprcursor
+  hyprctl setcursor rose-pine-hyprcursor 32
 
-# rofi
-echo "Aplicando configuraciones de rofi..."
-rm -rf "$HOME/.config/rofi"
-ln -srv "./configs/rofi" "$HOME/.config/rofi"
-echo "Listo"
+  echo "Instalando dependencias..."
+  sudo pacman -S --needed --noconfirm \
+    kitty cava rofi-wayland hyprpicker pavucontrol obsidian swaync nautilus \
+    kcalc superfile discord btop fastfetch swww
 
-# wlogout
-echo "Aplicando configuraciones de wlogout..."
-rm -rf "$HOME/.config/wlogout"
-ln -srv "./configs/wlogout" "$HOME/.config/wlogout"
-echo "Listo"
+  yay -S --noconfirm clipse waypaper hyprshot swayosd-git onlyoffice-bin pcloud-drive
 
-# Cambiamos Fondo de Pantalla
-swww-daemon &
-swww img $DOTFILES_DIR/configs/wallpaper.jpg
-hellwal -i $DOTFILES_DIR/configs/wallpaper.jpg --neon-mode --bright-offset 1 && pkill -USR2 waybar & pywalfox update &
+  echo "Aplicando configuraciones..."
+  for config in hypr waypaper waybar kitty cava rofi; do
+    rm -rf "$HOME/.config/$config"
+    ln -srv "$DOTFILES_DIR/configs/$config" "$HOME/.config/$config"
+  done
+
+  echo "Cambiando fondo de pantalla..."
+  swww-daemon &
+  swww img "$DOTFILES_DIR/wallpapers/1004017.png"
+  hellwal -i "$DOTFILES_DIR/wallpapers/1004017.png" --neon-mode --bright-offset 1 && \
+  pkill -USR2 waybar & pywalfox update &
+
+  echo "Activando notificaciones de volumen/brillo..."
+  sudo systemctl enable --now swayosd-libinput-backend.service
+  swayosd-server &
+
+  echo "Configuración de escritorio Hyprland completa."
+}
+
+# Función para laptop
+laptop_configuration() {
+  echo "Iniciando instalación para Laptop Hyprland..."
+
+  yay -S --noconfirm rose-pine-hyprcursor
+  hyprctl setcursor rose-pine-hyprcursor 32
+
+  sudo pacman -S --needed --noconfirm \
+    cava kitty rofi-wayland hyprpicker blueman pavucontrol obsidian swaync \
+    nautilus kcalc superfile btop fastfetch
+
+  yay -S --noconfirm clipse waypaper hyprshot swayosd-git pcloud-drive
+
+  for config in hypr waypaper waybar kitty cava rofi wlogout; do
+    rm -rf "$HOME/.config/$config"
+    ln -srv "$DOTFILES_DIR/configs/$config" "$HOME/.config/$config"
+  done
+
+  swww-daemon &
+  swww img "$DOTFILES_DIR/configs/wallpaper.jpg"
+  hellwal -i "$DOTFILES_DIR/configs/wallpaper.jpg" --neon-mode --bright-offset 1 && \
+  pkill -USR2 waybar & pywalfox update &
+
+  sudo systemctl enable --now swayosd-libinput-backend.service
+  swayosd-server &
+
+  echo "Configuración de laptop Hyprland completa."
+}
+
+# Menú
+echo "¿Para qué sistema es este script?"
+echo "1) Desktop"
+echo "2) Laptop"
+read -rp "Selecciona una opción (1 o 2): " choice
+
+case $choice in
+  1) desktop_configuration ;;
+  2) laptop_configuration ;;
+  *) echo "Opción inválida." ;;
+esac
