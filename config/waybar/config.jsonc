@@ -7,96 +7,89 @@
     "margin-left": 10,
     "margin-right": 10,
     "height": 41,
+    "reload_style_on_change": true,
+
     "modules-left": [
-        "custom/media",
-        "cpu",
-        "memory",
-        "hyprland/language",
-        "keyboard-state"
+        "hyprland/workspaces",
+        "mpris"
     ],
     "modules-center": [
-        "hyprland/workspaces"
+        "hyprland/window"
     ],
     "modules-right": [
-        "pulseaudio",
-        "backlight",
-        "battery",
+        "custom/padd",
+        "custom/l_end",
+        "group/expand",
+        "network",
+        "group/expand-3",
+        "group/expand-2",
+        "group/expand-4",
+        "memory",
+        "cpu",
         "clock",
-        "tray",
-        "bluetooth",
-        "custom/wlogout",
-        "custom/notification"
+        "custom/notification",
+        "custom/padd",
+        "custom/wlogout"
     ],
 
     "hyprland/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
-        "format-icons": {
-            "1": "",
-            "2": "",
-            "3": "",
-            "4": "",
-            "5": "",
-            "6": "",
-            "7": "",
-            "8": "",
-            "9": "",
-            "active": "",
-            "urgent": "",
-            "persistent": "",
-            "focused": "",
-            "default": ""
-        },
+         "format-icons": {
+            "default": "",
+            "active": ""
+            //"default": "○",
+            //"default": "●"
+	    },
         "sort-by-number": true,
-        "persistent-workspaces": {
-            "*": 9,
-            "DP-1": 9
-        },
         "on-scroll-up": "hyprctl dispatch workspace e-1",
         "on-scroll-down": "hyprctl dispatch workspace e+1"
     },
-    "clock": {
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "<big>{:%H:%M}</big>",
-        "format-alt": "<span color='#cdd6f4'>{:%H:%M | %a %d %b}</span>",
+     "clock": {
+        "format": "{:%I:%M %p}",
+        "rotate": 0,
+        "on-click": "/usr/local/bin/ags -t ActivityCenter",
+        "tooltip-format": "<tt>{calendar}</tt>",
         "calendar": {
             "mode": "month",
-            "mode-mon-col": 3
+            "mode-mon-col": 3,
+            "on-scroll": 1,
+            "on-click-right": "mode",
+            "format": {
+                "months": "<span color='#ffead3'><b>{}</b></span>",
+                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                "today": "<span color='#ff6699'><b>{}</b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
         }
     },
     "cpu": {
-        "format": "<span color='#89b4fa'>󰍛</span> <span color='#cdd6f4'>{usage}%</span>",
         "interval": 1,
-        "format-alt-click": "click",
-        "format-alt": "<span color='#00FF00'>{icon0}{icon1}{icon2}{icon3}</span> <span color='#FFFFFF'>{usage:>2}%</span> <span color='#00FF00'>󰍛</span>",
-        "format-icons": [
-            "▁",
-            "▂",
-            "▃",
-            "▄",
-            "▅",
-            "▆",
-            "▇",
-            "█"
-        ],
-        "on-click": "gnome-system-monitor"
+        "format": "{icon}",
+        "rotate": 270,
+        "format-icons": ["󰝦","󰪞","󰪟","󰪠","󰪡","󰪢","󰪣","󰪤","󰪥"]
     },
     "memory": {
-        "interval": 3,
-        "format": "<span color='#f38ba8'> </span> <span color='#cdd6f4'>{used:0.1f}G</span>"
+        "interval": 1,
+        "rotate": 270,
+        "format": "{icon}",
+        "format-icons": ["󰝦","󰪞","󰪟","󰪠","󰪡","󰪢","󰪣","󰪤","󰪥"],
+        "max-length": 10
     },
-     "disk": {
-        "interval": 3,
-        "path": "/home",
-        "format": "<span color='#a6e3a1'> </span><span color='#cdd6f4'>{free}</span>",
-        "unit": "GB"
-    },
+
     "separator": {
         "format": " | "
     },
     "tray": {
         "icon-size": 16,
-        "spacing": 15
+        "spacing": 3,
+        "rotate": 0
     },
     "battery": {
         "interval": 5,
@@ -105,17 +98,22 @@
             "warning": 20,
             "critical": 10
         },
-        "format": "{capacity}% {icon}",
-        "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
+        "format": "{icon} {capacity}%",
+        "format-full": "  {capacity}%",
+        "format-charging": "{capacity}% ",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{icon} {time}",
         "format-icons": [
-            "", "", "", "", ""
+            "",  // 0-19%
+            "",  // 20-39%
+            "",  // 40-59%
+            "",  // 60-79%
+            ""   // 80-100%
         ]
     },
     "network": {
-        "interval": 1,
+        "interval": 5,
+        "on-click": "network-manager-applet ",
         "format-wifi": "{icon}", // Solo el ícono
         "format-ethernet": "󰈀", // Ícono de red cableada
         "format-disconnected": "󰖪", // Ícono de desconectado,
@@ -132,13 +130,11 @@
         }
     },
     "pulseaudio": {
-        "format": "<span color='#a6e3a1'>{icon} </span><span color='#cdd6f4'>{volume}%</span>",
-        "format-bluetooth": "<span color='#a6e3a1'>{icon}</span>  <span color='#cdd6f4'>{volume}%</span>",
-        "tooltip": true,
-        "format-muted": "<span color='#f38ba8'>󰝟</span>",
-        "on-click": "pavucontrol",
-        "on-scroll-up": "wpctl set-volume @DEFAULT_SINK@ 10%+",
-        "on-scroll-down": "wpctl set-volume @DEFAULT_SINK@ 10%-",
+        "format": "{icon}",
+        "rotate": 0,
+        "format-muted": "婢",
+        "tooltip-format": "{icon} {desc} // {volume}%",
+        "scroll-step": 5,
         "format-icons": {
             "headphone": "",
             "hands-free": "",
@@ -151,22 +147,9 @@
                 "",
                 ""
             ]
-        }
-    },
-    "pulseaudio#microphone": {
-        "format": "{format_source}",
-        "format-source": "<span color='#f38ba8'> </span><span color='#cdd6f4'>{volume}%</span>",
-        "format-source-muted": "",
-        "on-click": "wpctl set-mute @DEFAULT_SOURCE@ toggle",
-        "on-scroll-up": "wpctl set-volume @DEFAULT_SOURCE@ 5%+",
-        "on-scroll-down": "wpctl set-volume @DEFAULT_SOURCE@ 5%-"
-    },
-    "hyprland/language": {
-        "format": "<span color='#f9e2af'>󰌌</span> <span color='#cdd6f4'>{}</span> |",
-        "format-ar": "ara",
-        "format-en": "eng",
-        "format-es": "esp",
-        "format-la": "esp"
+        },
+        "format-bluetooth": "<span color='#a6e3a1'>{icon}</span>  <span color='#cdd6f4'>{volume}%</span>"
+        // "on-click": "pavucontrol"
     },
     "backlight": {
         "device": "amdgpu_bl1",
@@ -176,14 +159,14 @@
         "on-scroll-down": "brightnessctl set 5%-"
     },
     "bluetooth": {
-    "format": "{icon} {status}",
-    "format-icons": {
-        "enabled": "",
-        "disabled": "󰂲"
-    },
-    "on-click": "blueman-manager",
-    "on-click-right": "bluetoothctl power toggle",
-    "tooltip": true,
+        "format": "{icon}",
+        "format-icons": {
+            "enabled": "",
+            "disabled": "󰂲"
+        },
+        "on-click": "blueman-manager",
+        "on-click-right": "bluetoothctl power toggle",
+        "tooltip": true,
         "tooltip-format": "{status} {device_alias}"
     },
     "keyboard-state": {
@@ -202,22 +185,6 @@
         "on-click": "wlogout",
         "tooltip": false,
         "on-click-right": "hyprctl dispatch exit"
-    },
-    "custom/media": {
-        "format": "{icon} {text}",
-        "return-type": "json",
-        "max-length": 25,
-        "format-icons": {
-            "spotify": "",
-            "default": ""
-        },
-        "escape": true,
-        "exec": "~/.config/waybar/scripts/mediaplayer.sh",
-        "on-click": "playerctl play-pause",
-        "on-click-right": "playerctl stop",
-        "interval": 1,
-        "tooltip": true,
-        "tooltip-format": "{text}"
     },
     "power-profiles-daemon": {
         "format": "{icon}  {profile}",
@@ -245,5 +212,172 @@
         "on-click": "sleep 0.1 && swaync-client -t -sw",
         "on-click-right": "sleep 0.1 && swaync-client -d -sw",
         "escape": true
+    },
+    "pulseaudio/slider": {
+        "min": 5,
+        "max": 100,
+        "rotate": 0,
+        "device": "pulseaudio",
+        "scroll-step": 1
+    },
+    "backlight/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+    "group/software": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-tray",
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "battery",
+            "group/volume",
+            "group/light",
+            "bluetooth"
+        ]
+    },
+    "group/group-power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/power",
+            "custom/quit",
+            "custom/lock",
+            "custom/reboot"
+        ]
+    },
+    "custom/quit": {
+        "format": "󰗼",
+        "tooltip": true,
+        "on-click": "hyprctl dispatch exit"
+    },
+    "custom/lock": {
+        "format": "󰍁",
+        "tooltip": true,
+        "on-click": "loginctl lock-session"
+    },
+    "custom/reboot": {
+        "format": "󰜉",
+        "tooltip": true,
+        "on-click": "reboot"
+    },
+    "custom/power": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "shutdown now"
+    },
+    "group/expand": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": "600",
+            "children-class": "not-power",
+            "transition-to-left": false
+        },
+        "modules": [
+            "custom/menu",
+            "custom/spacer",
+            "tray"
+        ],
+        "tooltip": false
+    },
+    "custom/menu":{
+        "format": "󰅃",
+        "rotate": 90
+    },
+    "custom/spacer":{
+        "format": "|"
+    },
+    "mpris": {
+        "format": "{player_icon} {title} - {artist}",
+        "format-paused": "<span color='grey'>{status_icon} {title} - {artist}</span>",
+        "max-length": 30,
+        "player-icons": {
+            "default": "⏸",
+            "mpv": "🎵"
+        },
+        "status-icons": {
+            "paused": "▶" 
+        }
+        // "ignored-players": ["firefox"]
+    },
+    "hyprland/window": {  
+        //"format": "{}"   // <--- these is the default value  
+        "format": "<span  weight='bold' >{class}</span>",
+        "max-length": 120,
+        "icon": false,
+        "icon-size": 13
+    },
+    "group/expand-2": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 600,
+            "children-class": "not-power",
+            "transition-to-left": true,
+            "click-to-reveal": true
+        },
+        "modules": [
+            "backlight",
+            "backlight/slider"
+        ]
+    },
+    "group/expand-3": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 600,
+            "children-class": "not-power",
+            "transition-to-left": true,
+            "click-to-reveal": true
+        },
+        "modules": [
+            "pulseaudio",
+            "pulseaudio/slider"
+        ]
+    },
+    "group/expand-4": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 600,
+            "children-class": "not-power",
+            "transition-to-left": true,
+            "click-to-reveal": true
+        },
+        "modules": [
+            "upower",
+            "upower/headset"
+        ]
+    },
+    "upower": {
+        "icon-size": 16,
+        "format": "{percentage}",
+        "format-alt": "{}<span color='orange'>[{time}]</span>",
+        "tooltip": true,
+        "tooltip-spacing": 20,
+        "on-click-right": "pkill waybar & hyprctl dispatch exec waybar"
+    },
+
+    "upower#headset": {
+        "format": " {percentage}",
+        "native-path": "/org/freedesktop/UPower/devices/headset_dev_A6_98_9A_0D_D3_49",
+        "show-icon": false,
+        "tooltip": false
+    },
+
+    // modules para padding
+    "custom/padd": {
+        "format": "  ",
+        "interval" : "once",
+        "tooltip": false
+    },
+    "custom/l_end": {
+        "format": " ",
+        "interval" : "once",
+        "tooltip": false
     }
 }
