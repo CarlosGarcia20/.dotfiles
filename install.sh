@@ -65,10 +65,6 @@ desktop_configuration() {
 laptop_configuration() {
   echo "Iniciando instalación para Laptop Hyprland..."
 
-  # Instalar cursor
-  yay -S --noconfirm rose-pine-hyprcursor
-  hyprctl setcursor rose-pine-hyprcursor 32
-
   # Recordatorio para multilib (necesario para Steam)
   echo "--------------------------------------------------------------------"
   echo "IMPORTANTE: Asegúrate de tener el repositorio [multilib] habilitado"
