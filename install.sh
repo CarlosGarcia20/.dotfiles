@@ -82,7 +82,7 @@ laptop_configuration() {
     cava kitty rofi-wayland hyprpicker blueman pavucontrol obsidian swaync \
     nautilus kcalc superfile btop fastfetch discord \
     cups cups-pdf print-manager sane-airscan simple-scan \
-    cheese steam nodejs pnpm code
+    cheese steam code
 
   echo "Instalando paquetes de AUR (yay)..."
   yay -S --noconfirm \
