@@ -43,7 +43,7 @@ desktop_configuration() {
   yay -S --noconfirm clipse waypaper hyprshot swayosd-git onlyoffice-bin pcloud-drive
 
   echo "Aplicando configuraciones..."
-  for config in hypr waypaper waybar kitty cava rofi; do
+  for config in cava hypr kitty rofi swaync waybar waypaper wlogout; do
     rm -rf "$HOME/.config/$config"
     ln -srv "$DOTFILES_DIR/configs/$config" "$HOME/.config/$config"
   done
@@ -78,7 +78,6 @@ laptop_configuration() {
   read -r
 
   echo "Instalando paquetes de Pacman (oficiales)..."
-  # Paquetes base que ya tenías + los nuevos solicitados
   sudo pacman -S --needed --noconfirm \
     cava kitty rofi-wayland hyprpicker blueman pavucontrol obsidian swaync \
     nautilus kcalc superfile btop fastfetch discord \
@@ -86,7 +85,6 @@ laptop_configuration() {
     cheese steam nodejs pnpm code
 
   echo "Instalando paquetes de AUR (yay)..."
-  # Paquetes de AUR que ya tenías + los nuevos solicitados
   yay -S --noconfirm \
     clipse waypaper hyprshot swayosd-git pcloud-drive \
     heroic-games-launcher-bin insomnia fnm nwg-displays navicat-premium
@@ -95,20 +93,20 @@ laptop_configuration() {
   sudo systemctl enable --now cups.service
 
   echo "Aplicando configuraciones..."
-  for config in hypr waypaper waybar kitty cava rofi wlogout; do
+  for config in cava hypr kitty rofi swaync waybar waypaper wlogout; do
     rm -rf "$HOME/.config/$config"
     ln -srv "$DOTFILES_DIR/configs/$config" "$HOME/.config/$config"
   done
+
+  echo "Activando notificaciones de volumen/brillo..."
+  sudo systemctl enable --now swayosd-libinput-backend.service
+  swayosd-server &
 
   echo "Configurando fondo de pantalla..."
   swww-daemon &
   swww img "$DOTFILES_DIR/configs/wallpaper.jpg"
   hellwal -i "$DOTFILES_DIR/configs/wallpaper.jpg" --neon-mode --bright-offset 1 && \
   pkill -USR2 waybar & pywalfox update &
-
-  echo "Activando notificaciones de volumen/brillo..."
-  sudo systemctl enable --now swayosd-libinput-backend.service
-  swayosd-server &
 
   echo "Configuración de laptop Hyprland completa."
 }
