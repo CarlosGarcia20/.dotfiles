@@ -52,9 +52,8 @@ sudo pacman -S --needed --noconfirm \
 
 echo ">> Instalando paquetes base de AUR..."
 yay -S --noconfirm clipse waypaper hyprshot \
-    onlyoffice-bin pcloud-drive navicat17-premium-en \
-    nwg-displays
-
+    onlyoffice-bin pcloud-drive nwg-displays piper
+    
 # --- 4. CONFIGURACIONES (DOTFILES) ---
 echo ">> Copiando configuraciones iniciales..."
 

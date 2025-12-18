@@ -1,0 +1,109 @@
+/**
+ * Rofi cyber theme
+ * By Voltron94
+ * Github : https://github.com/Voltron94/rofi-cyber-theme
+ */
+
+configuration {
+    display-drun : "Application";
+	display-window : "Windows";
+	combi-modes: [ window, drun, run ];
+	show-icon : true;
+	icon-theme: "Papirus"; 								//Work only if Papirus are install !
+}
+
+@theme "/dev/null"
+
+* {
+	font: "Hurmit Nerd Font 12";
+
+	bg :					#1a0b2eCC;					//Main background
+	alt-bg:					#1a0b2eFF;					//Secondary background
+	
+	fg :					#4d7cff; 					//Main police Color 
+	alt-fg:					#d7f8fa; 					//Alternative Police color (Actually the prompt color) 
+	alt-fg1:				#7a5b85ff; 					//Alternative Police color (Actually the entry color)
+	
+	bord-color:				#a01a64ff;					//inputbar border color 
+	alt-color:				#d6006f;					//selection color
+
+	background-color: transparent;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	spacing: 0;
+}
+
+//===========Window===========
+
+window {
+	background-color: @bg; 								//Define the background here !
+	//location: north;									//Spawn location of rofi
+	width: 780;			
+	border-radius:  30px;
+}
+
+//===========mainbox==========
+
+mainbox{
+	padding: 12px;
+}
+
+//==========InputBar===========
+
+inputbar{
+	border-color: @bord-color;						
+	background-color: @alt-bg;
+	margin: 10 0 15 0;	//top right bottom left
+	
+	border:         4px;								//border size
+    border-radius:  24px;								//rounded
+	
+	spacing:    8px;
+	padding: 10px 17px;
+	
+	children: [prompt, entry];							//Format
+}
+
+prompt{
+	background-color: @alt-bg;
+	padding: 6;
+	text-color: @alt-fg;
+}
+
+entry{
+	background-color: @alt-bg;
+	placeholder:        "Search";
+	padding: 6;
+	text-color: @alt-fg1; 
+}
+
+//==========Listview============
+
+listview{
+	bg: @bg;
+	columns: 1;
+	lines: 7;
+}
+
+//===========element============
+
+element selected{
+	text-color: @alt-color;
+}
+
+element {
+	padding: 12px;
+	spacing: 12px;
+	children: [element-icon, element-text];
+	text-color: @fg;
+}
+
+element-icon {
+    size:           24px;
+    vertical-align: 0.5;
+}
+
+element-text{
+    text-color:	inherit;
+}
