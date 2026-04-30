@@ -192,7 +192,7 @@
         "tooltip": true,
         "format-icons": {
             "default": "",
-            "performance": "",
+            // "performance": "",
             "balanced": "",
             "power-saver": ""
         }
@@ -224,34 +224,6 @@
         "min": 0,
         "max": 100,
         "orientation": "horizontal"
-    },
-    "group/software": {
-        "orientation": "horizontal",
-        "drawer": {
-            "transition-duration": 500,
-            "children-class": "not-tray",
-            "transition-left-to-right": false
-        },
-        "modules": [
-            "battery",
-            "group/volume",
-            "group/light",
-            "bluetooth"
-        ]
-    },
-    "group/group-power": {
-        "orientation": "inherit",
-        "drawer": {
-            "transition-duration": 500,
-            "children-class": "not-power",
-            "transition-left-to-right": false
-        },
-        "modules": [
-            "custom/power",
-            "custom/quit",
-            "custom/lock",
-            "custom/reboot"
-        ]
     },
     "custom/quit": {
         "format": "󰗼",
@@ -350,7 +322,8 @@
         },
         "modules": [
             "upower",
-            "upower/headset"
+            "upower/headset",
+            "power-profiles-daemon"
         ]
     },
     "upower": {
