@@ -22,14 +22,13 @@
         "group/expand",
         "network",
         "group/expand-3",
-        "group/expand-2",
-        "group/expand-4",
+        // "group/expand-2",
+        // "group/expand-4",
         "memory",
         "cpu",
         "clock",
         "custom/notification",
-        "custom/padd",
-        "custom/wlogout"
+        "custom/padd"
     ],
 
     "hyprland/workspaces": {
@@ -148,8 +147,8 @@
                 ""
             ]
         },
-        "format-bluetooth": "<span color='#a6e3a1'>{icon}</span>  <span color='#cdd6f4'>{volume}%</span>"
-        // "on-click": "pavucontrol"
+        "format-bluetooth": "<span color='#a6e3a1'>{icon}</span>  <span color='#cdd6f4'>{volume}%</span>",
+        "on-click-right": "pavucontrol"
     },
     "backlight": {
         "device": "amdgpu_bl1",

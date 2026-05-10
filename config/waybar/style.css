@@ -1,9 +1,9 @@
 * {
     border: none;
     border-radius: 10px;
-    font-family: "JetBrainsMono Nerd Font", "FiraCode Nerd Font", "Hack Nerd Font", monospace;
+    font-family: "JetBrainsMono NF", "FiraCode Nerd Font", "Hack Nerd Font", monospace;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 14px;
     min-height: 0;
 }
 
