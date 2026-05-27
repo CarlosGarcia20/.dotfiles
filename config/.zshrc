@@ -1,4 +1,3 @@
-# caelestia scheme set -n dynamic
 pokemon-colorscripts -r --no-title
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
@@ -111,16 +110,18 @@ source $ZSH/oh-my-zsh.sh
 # pokemon-colorscripts -r --no-title
 
 # pnpm
-export PNPM_HOME="/home/carlosg/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+# export PNPM_HOME="/home/carlosg/.local/share/pnpm"
+# case ":$PATH:" in
+#   *":$PNPM_HOME:"*) ;;
+#   *) export PATH="$PNPM_HOME:$PATH" ;;
+# esac
 # pnpm end
 
 # fnm
-FNM_PATH="/home/carlosg/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="$FNM_PATH:$PATH"
-  eval "$(fnm env --shell zsh)"
-fi
+# FNM_PATH="/home/carlosg/.local/share/fnm"
+# if [ -d "$FNM_PATH" ]; then
+#   export PATH="$FNM_PATH:$PATH"
+#   eval "$(fnm env --shell zsh)"
+# fi
+
+# export PATH=$PATH:/home/carlosg/.spicetify

@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-# --- Variables y Funciones ---
 DOTFILES_DIR=$(pwd)
 
 log() { echo -e "\e[1;34m[INFO]\e[0m $1"; }
@@ -26,9 +25,23 @@ fi
 
 # --- 1. Instalación de Quickshell --- 
 log "Instalando Quickshell..."
-yay -S --noconfirm quickshell-overview-git
+yay -S --noconfirm quickshell-git
+ok "Quickshell listo"
 
-# --- 2. FUENTES (BASE) ---
+# --- 2. INSTALACION DE AMBXST ---
+log "Instalando Ambxst..."
+curl -L get.axeni.de/ambxst | sh
+ok "Ambxst instalado"
+
+log "Aplicando configuraciones de Ambxst"
+mkdir -p "$HOME/.local/share/fonts"
+ln -srv "$DOTFILES_DIR/fonts/Monocraft.ttc" "$HOME/.local/share/fonts/"
+fc-cache -fv
+rm -rf "$HOME/.config/ambxst"
+ln -srv "$DOTFILES_DIR/config/ambxst" "$HOME/.config/ambxst"
+ok "Configuraciones aplicadas"
+
+# --- 3. FUENTES (BASE) ---
 log "Instalando fuentes base..."
 sudo pacman -S --needed --noconfirm \
   ttf-dejavu ttf-liberation ttf-font-awesome ttf-nerd-fonts-symbols \
@@ -38,11 +51,10 @@ log "Instalando fuentes de AUR..."
 yay -S --noconfirm \
     ttf-martian-mono ttf-hack-nerd \
     ttf-jetbrains-mono-nerd ttf-firacode-nerd
-
 sudo fc-cache -fv
 ok "Fuentes instaladas."
 
-# --- 3. PAQUETES GENERALES (BASE) ---
+# --- 4. PAQUETES GENERALES (BASE) ---
 log "Instalando paquetes base de Pacman..."
 sudo pacman -S --needed --noconfirm \
     cava hyprpicker pavucontrol superfile \
@@ -54,9 +66,10 @@ log "Instalando paquetes base de AUR..."
 yay -S --noconfirm clipse waypaper hyprshot \
     onlyoffice-bin pcloud-drive nwg-displays \
     vscodium-bin pokemon-colorscripts-git vesktop \
-    insomnia-bin protonup-qt iriunwebcam-bin obs-studio
+    insomnia-bin protonup-qt iriunwebcam-bin obs-studio \
+    spotify
 
-# --- 4. CONFIGURACIONES (DOTFILES) ---
+# --- 5. CONFIGURACIONES (DOTFILES) ---
 log "Copiando configuraciones iniciales..."
 
 # Hyprland
@@ -77,16 +90,20 @@ rm -rf "$HOME/.config/kitty"
 ln -srv "$DOTFILES_DIR/config/kitty" "$HOME/.config/kitty"
 ok "Listo"
 
-# --- 5. Instalacion de Apps para juegos ---
+# --- 6. Instalacion de Apps para juegos ---
 log "Instalando apps de juegos..."
 sudo pacman -S --needed --noconfirm steam
 yay -S --noconfirm heroic-games-launcher-bin rpcs3-bin
 
-# --- 6. INSTALACION DE OH MY ZSH ---
+# --- 7. INSTALACION DE OH MY ZSH ---
 log "Instalando Oh My Zsh..."
 RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+log "Aplicando configuracion de OH MY ZSH"
+rm -rf "$HOME/.zshrc"
+ln -srv "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+ok "Listo"
 
-# --- 7. CONFIGURACIÓN VISUAL (HYPRLAND) ---
+# --- 8. CONFIGURACIÓN VISUAL (HYPRLAND) ---
 if [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
     log "Detectado Hyprland activo. Aplicando cursores..."
     yay -S --noconfirm rose-pine-hyprcursor
